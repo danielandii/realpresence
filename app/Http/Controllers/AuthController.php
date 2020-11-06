@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Model\User;
+
+/**
+     * request code
+     *
+     * 200 success
+     * 400 error, client should not repeat the request without modification
+     * 404 error, server can not find the requested resource
+     */
 
 class AuthController extends Controller
 {
@@ -18,21 +27,21 @@ class AuthController extends Controller
      * @param  [string] password_confirmation
      * @return [string] message
      */
-    public function signup(Request $request)
+    public function store(Request $request)
     {
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required|string|confirmed',
             'nama' => 'required|string',
             'email' => 'required|string|email|unique:users',
         ]);
-        
+        // error json
         if ($validator->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => 'Failed!',
+                'message' => 'Signup Error',
                 'data' => $validator->messages()
-            ], 200);
+            ], 400);
         }
 
         $user = new User([
@@ -43,15 +52,59 @@ class AuthController extends Controller
             'role' => $request->role,
         ]);
         $user->save();
-        // return response()->json([
-        //     'message' => 'Successfully created user!'
-        // ], 201);
-
+        
+        // success json
         return response()->json([
             'code' => 200,
-            'message' => 'Successfully created user!',
+            'message' => 'Signup Success',
             'data' => $user
         ], 200);
+    }
+
+    public function update($id, Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required|string|confirmed',
+            'nama' => 'required|string',
+        ]);
+        // error json
+        if ($validator->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Update Error',
+                'data' => $validator->messages()
+            ], 400);
+        }
+
+        $user = User::find($id);
+        // dd($user);
+        if ($user) {
+
+            $user->username = $request->username;
+            $user->password = bcrypt($request->password);
+            $user->nama = $request->nama;
+            $user->email = $request->email;
+            $user->role = $request->role;
+
+            // dd($user);
+            $user->save();
+            
+            return response()->json([
+                'code' => 200,
+                'message' => 'User Updated',
+                'data' => $user
+            ],200);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Update Error',
+                'data' => 'User not identified'
+            ],400);
+        }
+        
+        // dd($user);
     }
   
     /**
@@ -73,13 +126,13 @@ class AuthController extends Controller
         ]);
         $credentials = request(['username', 'password']);
         
-        // gagal
+        // error json
         if(!Auth::attempt($credentials))
             return response()->json([
-                'code' => 401,
-                'message' => 'Failed',
+                'code' => 400,
+                'message' => 'Login Error',
                 'data' => 'Invalid Username or Password!'
-            ], 401);
+            ], 400);
 
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
@@ -88,6 +141,8 @@ class AuthController extends Controller
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+
+        // success json
         return response()->json([
             'code' => 200,
             'message' => 'Login Success',
@@ -99,7 +154,7 @@ class AuthController extends Controller
                     $tokenResult->token->expires_at
                     )->toDateTimeString()
                 ],
-        ]);
+            ],200);
     }
   
     /**
@@ -111,10 +166,32 @@ class AuthController extends Controller
     {
         $request->user()->token()->revoke();
         return response()->json([
-            'code' => 230,
-            'message' => 'Successfully logged out',
+            'code' => 200,
+            'message' => 'Logout Success',
             'data' => 'Logged Out'
-        ]);
+        ],200);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        // dd($user);
+        if ($user) {
+            $user->delete();
+            return response()->json([
+                'code' => 200,
+                'message' => 'Delete Success',
+                'data' => 'User has been deleted'
+            ],200);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Error Deleting',
+                'data' => 'User not identified'
+            ],400);
+        }
+        
+        // dd($user);
     }
   
     /**
@@ -122,13 +199,24 @@ class AuthController extends Controller
      *
      * @return [json] user object
      */
-    public function user(Request $request)
+    public function show(Request $request)
     {
-        return response()->json([
-            'code' => 200,
-            'message' => 'User identified',
-            'data' => $request->user()
-            ]);
+        $user = $request->user();
+        if ($user) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Get User Success',
+                'data' => $request->user()
+            ],200);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Error getting User',
+                'data' => 'User not found'
+            ],400);
+        }
     }
+
+    
 
 }
