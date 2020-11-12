@@ -136,8 +136,8 @@ class AuthController extends Controller
         // dd($request->all());
         $validator = Validator::make($request->all(), [
             // 'username' => 'required',
-            'password' => 'required|string|confirmed',
-            'nama' => 'required|string',
+            // 'password' => 'required|string|confirmed',
+            // 'nama' => 'required|string',
         ]);
         // error json
         if ($validator->fails()) {
@@ -151,15 +151,14 @@ class AuthController extends Controller
         $user = User::find($id);
         // dd($user);
         if ($user) {
+            $data = $request->except(['_token', '_method', 'password']);
 
-            // $user->username = $request->username;
-            $user->password = bcrypt($request->password);
-            $user->nama = $request->nama;
-            $user->email = $request->email;
-            $user->role = $request->role;
+            if($request->get('password')!=''){
+                $data['password'] = bcrypt($request->get('password'));
+            }
 
             // dd($user);
-            $user->save();
+            $user->update($data);
             
             return response()->json([
                 'code' => 200,
