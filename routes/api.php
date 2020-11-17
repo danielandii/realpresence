@@ -21,15 +21,14 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::group([
-    'prefix' => 'auth'
-], function () {
-    Route::post('login', 'Api\AuthController@login');
-    Route::post('signup', 'Api\AuthController@signup');
+Route::group(['prefix' => 'auth'], function () {
+
+    Route::group(['middleware' => 'cors:api'], function() {
+        Route::post('login', 'Api\AuthController@login');
+        Route::post('signup', 'Api\AuthController@signup');
+    });
   
-    Route::group([
-      'middleware' => 'auth:api'
-    ], function() {
+    Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', 'Api\AuthController@logout');
         Route::resource('user', 'Api\AuthController');
         Route::get('profile', 'Api\AuthController@profile');
