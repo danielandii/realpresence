@@ -28,7 +28,7 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('signup', 'Api\AuthController@signup');
     });
   
-    Route::group(['middleware' => 'auth:api'], function() {
+    Route::group(['middleware' => ['cors:api','auth:api']], function() {
         Route::get('logout', 'Api\AuthController@logout');
         Route::resource('user', 'Api\AuthController');
         Route::get('profile', 'Api\AuthController@profile');
