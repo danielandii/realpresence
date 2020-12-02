@@ -34,5 +34,7 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('profile', 'Api\AuthController@profile');
         Route::put('changePass', 'Api\AuthController@changePass');
         Route::get('getRole', 'Api\AuthController@getRole' );
+        Route::post('presence', 'Api\AuthController@presence' );
+        Route::post('unpresence', 'Api\AuthController@unpresence' );
     });
 });

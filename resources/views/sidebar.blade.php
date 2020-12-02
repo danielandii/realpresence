@@ -41,6 +41,14 @@
 						</span>
 					</a>
 				</li>
+				<li class="nav-item">
+					<a href="{{ url('/settings') }}" class="nav-link {{ (request()->is('settings*')) ? 'active' : '' }}">
+						<i class="icon-gear"></i>
+						<span>
+							Settings
+						</span>
+					</a>
+				</li>
 
 			</ul>
 		</div>

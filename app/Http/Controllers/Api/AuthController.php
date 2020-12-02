@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Model\User;
+use App\Model\Qrdata;
+use App\Model\Presence;
 
 /**
      * request code
@@ -279,7 +281,7 @@ class AuthController extends Controller
         }
     }
 
-    // get user profile dthat logged in
+    // get user profile that logged in
     public function profile(Request $request)
     {
         $user = $request->user();
@@ -294,6 +296,94 @@ class AuthController extends Controller
                 'code' => 400,
                 'message' => 'Error getting User',
                 'data' => 'User not found'
+            ],400);
+        }
+    }
+
+    public function presence(Request $request)
+    {
+        $request->validate([
+            'token_qr'=>'required',
+        ],[
+            'token_qr.required' => 'QR Token not found'
+        ]);
+
+        $user = $request->user();
+        $tokenqr = $request->token_qr;
+        
+        $findtoken = Qrdata::where('token_qr',$tokenqr)->first();
+
+        if ($findtoken) {
+            $findpresence = Presence::where('user_id',$user->id)->where('tanggal',$findtoken->tanggal);
+            if ($findpresence) {
+                return response()->json([
+                    'code' => 409,
+                    'message' => 'Error',
+                    'data' => 'Presence data already recorded'
+                ],400);
+            }else{
+                $presence = Presence::create([
+                    'user_id' => $user->id,
+                    'tanggal' => $findtoken->tanggal,
+                    'jam_masuk' => date('H:i:s'),
+                    ]);
+    
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success',
+                    'data' => 'Presence Data has been recorded'
+                ],200);
+            }
+            
+        } else {
+            return response()->json([
+                'code' => 400,
+                'message' => 'error',
+                'data' => 'Try Again or contact your administrator'
+            ],400);
+        }
+    }
+
+    
+    public function unpresence(Request $request)
+    {
+        $request->validate([
+            'token_qr'=>'required',
+        ],[
+            'token_qr.required' => 'QR Token not found'
+        ]);
+
+        $user = $request->user();
+        $tokenqr = $request->token_qr;
+        
+        $findtoken = Qrdata::where('token_qr',$tokenqr)->first();
+
+        if ($findtoken) {
+            $findpresence = Presence::where('user_id',$user->id)->where('tanggal',$findtoken->tanggal)->first();
+            // dd($findpresence);
+            if ($findpresence->jam_pulang != null) {
+                return response()->json([
+                    'code' => 409,
+                    'message' => 'Error',
+                    'data' => 'Presence data already recorded'
+                ],400);
+            }else{
+                $presence = Presence::where('user_id',$user->id)->first();
+                $presence->jam_pulang = date('H:i:s');
+                $presence->update();
+    
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success',
+                    'data' => 'Presence Data has been recorded'
+                ],200);
+            }
+            
+        } else {
+            return response()->json([
+                'code' => 400,
+                'message' => 'error',
+                'data' => 'Try Again or contact your administrator'
             ],400);
         }
     }
