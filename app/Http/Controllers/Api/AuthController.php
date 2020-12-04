@@ -314,7 +314,7 @@ class AuthController extends Controller
         $findtoken = Qrdata::where('token_qr',$tokenqr)->first();
 
         if ($findtoken) {
-            $findpresence = Presence::where('user_id',$user->id)->where('tanggal',$findtoken->tanggal);
+            $findpresence = Presence::where('user_id',$user->id)->where('tanggal',$findtoken->tanggal)->first();
             if ($findpresence) {
                 return response()->json([
                     'code' => 409,
