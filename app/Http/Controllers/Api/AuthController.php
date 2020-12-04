@@ -300,6 +300,25 @@ class AuthController extends Controller
         }
     }
 
+    public function historypresence(Request $request)
+    {
+        $user = $request->user();
+        $historyuser = Presence::where('user_id',$user->id)->get();
+        if ($user) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Get History Success',
+                'data' => $historyuser
+            ],200);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Error getting History',
+                'data' => 'Data not found'
+            ],400);
+        }
+    }
+
     public function presence(Request $request)
     {
         $request->validate([
@@ -361,29 +380,39 @@ class AuthController extends Controller
         if ($findtoken) {
             $findpresence = Presence::where('user_id',$user->id)->where('tanggal',$findtoken->tanggal)->first();
             // dd($findpresence);
-            if ($findpresence->jam_pulang != null) {
-                return response()->json([
-                    'code' => 409,
-                    'message' => 'Error',
-                    'data' => 'Presence data already recorded'
-                ],400);
+            if ($findpresence) {
+                if ($findpresence->jam_pulang != null) {
+                    return response()->json([
+                        'code' => 409,
+                        'message' => 'Error',
+                        'data' => 'Presence data already recorded'
+                    ],400);
+                }else{
+                    $presence = Presence::where('user_id',$user->id)->first();
+                    $presence->jam_pulang = date('H:i:s');
+                    $presence->update();
+        
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Success',
+                        'data' => 'Presence Data has been recorded'
+                    ],200);
+                }
+            // jika data user tidak ditemukan
             }else{
-                $presence = Presence::where('user_id',$user->id)->first();
-                $presence->jam_pulang = date('H:i:s');
-                $presence->update();
-    
                 return response()->json([
-                    'code' => 200,
-                    'message' => 'Success',
-                    'data' => 'Presence Data has been recorded'
-                ],200);
+                    'code' => 400,
+                    'message' => 'error',
+                    'data' => 'Data Not found, Try Again or contact your administrator'
+                ],400);
             }
             
+        // jika token tidak ditemukan
         } else {
             return response()->json([
                 'code' => 400,
                 'message' => 'error',
-                'data' => 'Try Again or contact your administrator'
+                'data' => 'Invalid QR Data.'
             ],400);
         }
     }

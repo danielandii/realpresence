@@ -16,7 +16,8 @@ class SettingController extends Controller
     */
     public function index()
     {
-        return view('settings.index');
+        $qrdatas = Qrdata::orderBy('tanggal','DESC')->get();
+        return view('settings.index', compact('qrdatas'));
     }
     
     /**
