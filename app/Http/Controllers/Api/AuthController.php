@@ -304,7 +304,8 @@ class AuthController extends Controller
     {
         $user = $request->user();
         $historyuser = Presence::where('user_id',$user->id)->get();
-        if ($user) {
+        // dd($historyuser);
+        if (count($historyuser) > 0) {
             return response()->json([
                 'code' => 200,
                 'message' => 'Get History Success',
