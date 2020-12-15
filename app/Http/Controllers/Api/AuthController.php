@@ -303,8 +303,13 @@ class AuthController extends Controller
     public function historypresence(Request $request)
     {
         $user = $request->user();
-        $historyuser = Presence::where('user_id',$user->id)->get();
-        // dd($historyuser);
+        $month = Carbon::now()->startOfMonth();
+        $historyuser = Presence::where('user_id',$user->id)->get()
+        ->groupBy(function($date) {
+            //return Carbon::parse($date->created_at)->format('Y'); // grouping by years
+            return Carbon::parse($date->tanggal)->format('F'); // grouping by months
+        });;
+        // dd($month);
         if (count($historyuser) > 0) {
             return response()->json([
                 'code' => 200,
