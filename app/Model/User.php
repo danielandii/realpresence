@@ -34,4 +34,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Model\Presence', 'user_id', 'id');
     }
+
+    public function employee()
+    {
+        return $this->belongsTo('App\Model\Employee', 'user_id', 'id');
+    }
+
 }

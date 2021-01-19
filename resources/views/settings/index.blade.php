@@ -73,8 +73,88 @@
             
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h6 class="card-title font-weight-semibold">Salaries Employees</h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="collapse"></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-form-label col-lg-1">PPH</label>
+                <div class="col-lg-1">
+                    <div class="input-group">
+                        <input type="text" name="pph" class="form-control border-teal border-1" placeholder="PPH" required disabled 
+                        value="{{ $deduction->pph_percentage }}%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-lg-1">BPJS</label>
+                <div class="col-lg-1">
+                    <div class="input-group">
+                        <input type="text" name="bpjs" class="form-control border-teal border-1" placeholder="BPJS" required disabled 
+                        value="{{ $deduction->bpjs_percentage }}%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modal_default">Edit <i class="far fa-edit ml-2"></i></button>
+            </div>
+        </div>
+    </div>
 </div>
 
+{{-- Modal --}}
+<div id="modal_default" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 1px solid #ddd; padding-bottom:20px;">
+                <h5 class="modal-title">Edit Deduction Percentage</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form class="form-validate-jquery" action="{{ route('settings.updateDeductions') }}" method="post">
+            @method('PATCH')
+            @csrf
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-1">PPH:</label>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <input type="number" name="pph" class="form-control border-teal border-1" placeholder="PPH" required value="{{ $deduction->pph_percentage }}">
+                                <span class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-1">BPJS:</label>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <input type="number" name="bpjs" class="form-control border-teal border-1" placeholder="BPJS" required value="{{ $deduction->bpjs_percentage }}">
+                                <span class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')

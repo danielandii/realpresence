@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Qrdata;
+use App\Model\Deduction;
 use PDF;
 
 class SettingController extends Controller
@@ -16,8 +17,9 @@ class SettingController extends Controller
     */
     public function index()
     {
+        $deduction = Deduction::find(1);
         $qrdatas = Qrdata::orderBy('tanggal','DESC')->get();
-        return view('settings.index', compact('qrdatas'));
+        return view('settings.index', ['qrdatas' => $qrdatas, 'deduction' => $deduction]);
     }
     
     /**
@@ -44,7 +46,7 @@ class SettingController extends Controller
         $findqr = Qrdata::where('tanggal',$data['tanggal'])->first();
         if ($findqr) { 
             $qrid = $findqr->id;
-        }else{
+        } else{
             $qrsave = Qrdata::create([
                 'tanggal' => $data['tanggal'],
                 'token_qr' => $qr,
@@ -54,7 +56,7 @@ class SettingController extends Controller
             
             // dd($receipt);
             return redirect()->back()->with('printqrcode',''.$qrid.'');
-        }
+    }
         
         public function printqr($id)
         {
@@ -108,5 +110,23 @@ class SettingController extends Controller
         {
             //
         }
-    }
+
+        public function updateDeductions(Request $request)
+        {
+            $request->validate([
+            'pph'=>'required|numeric|digits_between:1,3',
+            'bpjs'=>'required|numeric|digits_between:1,3',
+        ]);
+
+            $deduction = Deduction::find(1);
+            Deduction::where('id', $deduction->id)
+              ->update([
+                'pph_percentage' => $request->pph,
+                'bpjs_percentage' => $request->bpjs
+            ]);
+
+            return redirect()->back()->with('success', 'Deduction updated!');
+        }
+
+}
     

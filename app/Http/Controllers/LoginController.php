@@ -25,10 +25,15 @@ class LoginController extends Controller
 	        'username' => $request->username,
 	        'password' => $request->password])
 	    ){
-	    	return redirect('/home');
+	    	if (\Auth::user()->role == 1) {
+	    		return redirect('/home');
+	    	}elseif (\Auth::user()->role == 20) {
+	    		return redirect('/karyawan');
+	    	}
+	    	
 	        
 	    }
-	    return redirect('/login')->with('error', 'Invalid Email address or Password');
+	    return redirect('/login')->with('error', 'Invalid Username or Password');
 	}
 	/* GET
 	*/
@@ -45,5 +50,10 @@ class LoginController extends Controller
     public function home()
     {
         return view("index");
+    }
+
+    public function employeeView()
+    {
+    	return view('show_employee.index');
     }
 }
