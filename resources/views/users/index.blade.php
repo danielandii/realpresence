@@ -48,7 +48,7 @@
 				        <td>{{$i}}</td>
 				        <td><div class="datatable-column-width">{{$user->nama}}</div></td>
 				        <td><div class="datatable-column-width">{{$user->username}}</div></td>
-				        <td>{{config('custom.role.'.$user->role)}}</td>
+				        <td>{{ (config('custom.role.'.$user->role)) ? config('custom.role.'.$user->role) : config('custom.role_karyawan.'.$user->role) }}</td>
 				        <td align="center">
 							<div class="list-icons">
 								<div class="dropdown">

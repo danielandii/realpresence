@@ -86,9 +86,9 @@
         <div class="card-body">
             <div class="form-group row">
                 <label class="col-form-label col-lg-1">PPH</label>
-                <div class="col-lg-1">
+                <div class="col-lg-2">
                     <div class="input-group">
-                        <input type="text" name="pph" class="form-control border-teal border-1" placeholder="PPH" required disabled 
+                        <input type="text" name="pph" class="form-control border-teal border-1 text-center" placeholder="PPH" required disabled 
                         value="{{ $deduction->pph_percentage }}%">
                     </div>
                 </div>
@@ -96,9 +96,9 @@
 
             <div class="form-group row">
                 <label class="col-form-label col-lg-1">BPJS</label>
-                <div class="col-lg-1">
+                <div class="col-lg-2">
                     <div class="input-group">
-                        <input type="text" name="bpjs" class="form-control border-teal border-1" placeholder="BPJS" required disabled 
+                        <input type="text" name="bpjs" class="form-control border-teal border-1 text-center" placeholder="BPJS" required disabled 
                         value="{{ $deduction->bpjs_percentage }}%">
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                         <label class="col-form-label col-lg-1">PPH:</label>
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="number" name="pph" class="form-control border-teal border-1" placeholder="PPH" required value="{{ $deduction->pph_percentage }}">
+                                <input type="text" name="pph" class="form-control border-teal border-1" placeholder="PPH" required value="{{ $deduction->pph_percentage }}" min="0" step="1">
                                 <span class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </span>
@@ -138,7 +138,7 @@
                         <label class="col-form-label col-lg-1">BPJS:</label>
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="number" name="bpjs" class="form-control border-teal border-1" placeholder="BPJS" required value="{{ $deduction->bpjs_percentage }}">
+                                <input type="text" name="bpjs" class="form-control border-teal border-1" placeholder="BPJS" required value="{{ $deduction->bpjs_percentage }}">
                                 <span class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </span>

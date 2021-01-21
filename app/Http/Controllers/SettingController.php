@@ -114,8 +114,8 @@ class SettingController extends Controller
         public function updateDeductions(Request $request)
         {
             $request->validate([
-            'pph'=>'required|numeric|digits_between:1,3',
-            'bpjs'=>'required|numeric|digits_between:1,3',
+            'pph'=>'required|numeric',
+            'bpjs'=>'required|numeric',
         ]);
 
             $deduction = Deduction::find(1);

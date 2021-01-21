@@ -5,9 +5,10 @@ return [
 	  'role' => [
        	'1' => 'Super Admin',
        	'10' => 'Admin',
-        '20' => 'Karyawan',
     ],
 
-    
-  
+    	'role_karyawan' => [
+    		'20' => 'karyawan'
+    	],
+
 ];

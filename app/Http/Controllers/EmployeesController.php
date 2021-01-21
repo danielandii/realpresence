@@ -44,7 +44,7 @@ class EmployeesController extends Controller
             'nama'=>'required',
             'username'=>'required|unique:users,username',
             'password'=>'required|min:5',
-            'email'=>'email:rfc,dns|unique:users,email',
+            'email'=>'email|unique:users,email',
             'alamat'=>'required',
             'phone_number'=>'required|numeric|digits_between:10,15|unique:employees,phone_number',
             'gaji_pokok_employee'=>'required|numeric',
@@ -101,7 +101,7 @@ class EmployeesController extends Controller
         $request->validate([
             'nama'=>'required',
             'username'=>'required',
-            'email'=>'email:rfc,dns',
+            'email'=>'email',
             'alamat'=>'required',
             'phone_number'=>'required|numeric|digits_between:10,15',
             'gaji_pokok_employee'=>'required|numeric',

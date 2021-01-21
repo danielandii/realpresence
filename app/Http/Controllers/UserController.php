@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 1)->get();
+        $users = User::where('role', 1)->orWhere('role', 10)->get();
        
         return view('users.index', compact('users'));
     }
