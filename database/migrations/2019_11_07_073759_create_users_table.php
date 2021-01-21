@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('nama');
             $table->string('email');
             $table->tinyInteger('role')->default('99');
-            $table->bigInteger('user_id')->default(0);
             $table->timestamps();
         });
     }
