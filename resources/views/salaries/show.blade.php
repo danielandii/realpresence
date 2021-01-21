@@ -188,8 +188,8 @@
 						<input type="hidden" name="user_id" value="{{$user->user_id}}">
 						<input type="hidden" name="month" value="{{ Request::input('month') }}">
 						<input type="hidden" name="year" value="{{ Request::input('year') }}">
-						<input type="hidden" name="gaji_pokok_salary" value="{{$user->employee->gaji_pokok_employee}}">
-						<input type="hidden" name="uang_makan_salary" value="{{$user->employee->uang_makan_employee}}">
+						<input type="hidden" name="gaji_pokok_salary" value="{{@$user->employee->gaji_pokok_employee}}">
+						<input type="hidden" name="uang_makan_salary" value="{{@$user->employee->uang_makan_employee}}">
 						<input type="hidden" name="pph_percentage" value="{{$deduction->pph_percentage}}">
 						<input type="hidden" name="bpjs_percentage" value="{{$deduction->bpjs_percentage}}">
 
@@ -217,7 +217,7 @@
 										<label class="col-form-label col-lg-4">Gaji Pokok</label>
 										<div class="col-lg-8">
 											<div class="input-group">
-												<input type="text" class="form-control border-teal" value="Rp. {{ number_format($user->employee->gaji_pokok_employee,2,",",".") }}" disabled>
+												<input type="text" class="form-control border-teal" value="Rp. {{ number_format(@$user->employee->gaji_pokok_employee,2,",",".") }}" disabled>
 											</div>
 										</div>
 									</div>
@@ -226,7 +226,7 @@
 										<label class="col-form-label col-lg-4">Uang Makan</label>
 										<div class="col-lg-8">
 											<div class="input-group">
-												<input type="text" class="form-control border-teal" value="Rp. {{ number_format($user->employee->uang_makan_employee,2,",",".") }}" disabled>
+												<input type="text" class="form-control border-teal" value="Rp. {{ number_format(@$user->employee->uang_makan_employee,2,",",".") }}" disabled>
 											</div>
 										</div>
 									</div>
@@ -413,7 +413,7 @@
 								
 								<div class="col-md-12">
 									<h5 class="mr-1 d-inline">Telepon:</h5>
-									<span>{{ $user->employee->phone_number }}</span>
+									<span>{{ @$user->employee->phone_number }}</span>
 								</div>
 							</div>
 						</div>

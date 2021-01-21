@@ -50,8 +50,8 @@
 				        <td>{{$user->nama}}</td>
 				        <td>{{$user->username}}</td>
 				        <td>{{$user->email}}</td>
-				        <td>{{$user->employee->phone_number}}</td>
-				        <td>{{$user->employee->alamat}}</td>
+				        <td>{{@$user->employee->phone_number}}</td>
+				        <td>{{@$user->employee->alamat}}</td>
 				        <td align="center">
 							<div class="list-icons">
 								<div class="dropdown">
@@ -60,8 +60,13 @@
 									</a>
 
 									<div class="dropdown-menu dropdown-menu-right">
-										<a href="{{ route('employees.edit',$user->employee->id)}}" class="dropdown-item"><i class="icon-pencil7"></i> Edit</a>
-							            <a class="dropdown-item delbutton" data-toggle="modal" data-target="#modal_theme_danger" data-uri="{{ route('employees.destroy', $user->employee->id)}}"><i class="icon-x"></i> Delete</a>
+										@if(@$user->employee->id)
+											<a href="{{ route('employees.edit',$user->employee->id)}}" class="dropdown-item"><i class="icon-pencil7"></i> Edit</a>
+								            <a class="dropdown-item delbutton" data-toggle="modal" data-target="#modal_theme_danger" data-uri="{{ route('employees.destroy', $user->employee->id)}}"><i class="icon-x"></i> Delete</a>
+								        @else
+									        <a href="{{ route('employees.editEmployee',$user->id)}}" class="dropdown-item"><i class="icon-pencil7"></i> Edit</a>
+								        	<a class="dropdown-item delbutton" data-toggle="modal" data-target="#modal_theme_danger" data-uri="{{ route('users.destroy', $user->id)}}"><i class="icon-x"></i> Delete</a>
+										@endif
 									</div>
 								</div>
 							</div>

@@ -43,10 +43,10 @@
 				    <tr> 
 				        <td>{{$loop->iteration}}</td>
 				        <td>{{$user->nama}}</td>
-				        <td>Rp. {{number_format($user->employee->gaji_pokok_employee,2,",",".")}}</td>
-				        <td>Rp. {{number_format($user->employee->uang_makan_employee,2,",",".")}}</td>
+				        <td>Rp. {{number_format(@$user->employee->gaji_pokok_employee,2,",",".")}}</td>
+				        <td>Rp. {{number_format(@$user->employee->uang_makan_employee,2,",",".")}}</td>
 				        <td align="center">
-							<a href="{{ route('salaries.show',$user->user_id)}}" class="badge badge-info rounded-round py-2 px-3"><i class="fas fa-money-check-alt mr-1"></i> <span style="font-family: elephant">Print</span></a>
+							<a href="{{ route('salaries.show',@$user->user_id)}}" class="badge badge-info rounded-round py-2 px-3"><i class="fas fa-money-check-alt mr-1"></i> <span style="font-family: elephant">Print</span></a>
 				        </td>
 				    </tr>
 				    @endforeach

@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/changepass',  'UserController@changePass');
         Route::post('/changepass/{id}',  'UserController@changePassSubmit')->name('changepass');
         Route::get('/data-employees/absent',  'EmployeesController@absent');
+        Route::get('/data-employees/employees/{id}/edit-data', 'EmployeesController@editEmployee')->name('employees.editEmployee');
+        Route::patch('/data-employees/{id}', 'EmployeesController@updateEmployee')->name('employees.updateEmployee');
     });
 
     Route::group(['middleware' => ['role:20']], function() {

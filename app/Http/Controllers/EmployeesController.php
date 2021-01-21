@@ -168,4 +168,38 @@ class EmployeesController extends Controller
         return view('show_employee.detail_gaji', compact('salary'));
     }
 
+    public function editEmployee($id)
+    {
+        $user = User::find($id);
+        return view('employees.edit_employee', compact('user')); 
+    }
+
+    public function updateEmployee(Request $request, $id)
+    {
+        $request->validate([
+            'nama'=>'required',
+            'username'=>'required',
+            'email'=>'email',
+            'alamat'=>'required',
+            'phone_number'=>'required|numeric|digits_between:10,15',
+            'gaji_pokok_employee'=>'required|numeric',
+            'uang_makan_employee'=>'required|numeric'
+        ]);
+
+        $data = $request->all();
+        $employee = Employee::create($data);
+
+        $data = $request->except(['_token', '_method', 'alamat', 'phone_number', 'gaji_pokok_employee', 'uang_makan_employee']);
+
+        $data['username'] = strtolower($request->username);
+        $data['password'] = bcrypt($request->password);
+        $data['nama'] = ucwords(strtolower($request->nama));
+        $data['email'] = strtolower($request->email);
+        $data['user_id'] = $employee->id;
+
+        $user = User::find($id)->update($data);
+
+        return redirect('/data-employees/employees')->with('success', 'Employee updated!');
+    }
+
 }
