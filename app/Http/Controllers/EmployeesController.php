@@ -42,13 +42,13 @@ class EmployeesController extends Controller
     {
         $request->validate([
             'nama'=>'required',
-            'username'=>'required|unique:users,username',
-            'password'=>'required|min:5',
-            'email'=>'email|unique:users,email',
+            'username'=>'required',
+            'password'=>'required',
+            'email'=>'required',
             'alamat'=>'required',
-            'phone_number'=>'required|numeric|digits_between:10,15|unique:employees,phone_number',
-            'gaji_pokok_employee'=>'required|numeric',
-            'uang_makan_employee'=>'required|numeric'
+            'phone_number'=>'required',
+            'gaji_pokok_employee'=>'required',
+            'uang_makan_employee'=>'required'
         ]);
 
         $data = $request->all();
@@ -101,22 +101,24 @@ class EmployeesController extends Controller
         $request->validate([
             'nama'=>'required',
             'username'=>'required',
-            'email'=>'email',
+            'email'=>'required',
             'alamat'=>'required',
-            'phone_number'=>'required|numeric|digits_between:10,15',
-            'gaji_pokok_employee'=>'required|numeric',
-            'uang_makan_employee'=>'required|numeric'
+            'phone_number'=>'required',
+            'gaji_pokok_employee'=>'required',
+            'uang_makan_employee'=>'required'
         ]);
 
         $data = $request->all();
         $employee = Employee::find($id)->update($data);
 
-        $data = $request->except(['_token', '_method', 'alamat', 'phone_number', 'gaji_pokok_employee', 'uang_makan_employee']);
+        $data = $request->except(['_token', '_method', 'alamat', 'phone_number', 'gaji_pokok_employee', 'uang_makan_employee', 'password']);
 
         $data['username'] = strtolower($request->username);
-        $data['password'] = bcrypt($request->password);
         $data['nama'] = ucwords(strtolower($request->nama));
         $data['email'] = strtolower($request->email);
+        if($request->get('password')!=''){
+            $data['password'] = bcrypt($request->get('password'));
+        }
 
         $user = User::where('user_id', $id)->update($data);
 
@@ -179,23 +181,25 @@ class EmployeesController extends Controller
         $request->validate([
             'nama'=>'required',
             'username'=>'required',
-            'email'=>'email',
+            'email'=>'required',
             'alamat'=>'required',
-            'phone_number'=>'required|numeric|digits_between:10,15',
-            'gaji_pokok_employee'=>'required|numeric',
-            'uang_makan_employee'=>'required|numeric'
+            'phone_number'=>'required',
+            'gaji_pokok_employee'=>'required',
+            'uang_makan_employee'=>'required'
         ]);
 
         $data = $request->all();
         $employee = Employee::create($data);
 
-        $data = $request->except(['_token', '_method', 'alamat', 'phone_number', 'gaji_pokok_employee', 'uang_makan_employee']);
+        $data = $request->except(['_token', '_method', 'alamat', 'phone_number', 'gaji_pokok_employee', 'uang_makan_employee', 'password']);
 
         $data['username'] = strtolower($request->username);
-        $data['password'] = bcrypt($request->password);
         $data['nama'] = ucwords(strtolower($request->nama));
         $data['email'] = strtolower($request->email);
         $data['user_id'] = $employee->id;
+        if($request->get('password')!=''){
+            $data['password'] = bcrypt($request->get('password'));
+        }
 
         $user = User::find($id)->update($data);
 
