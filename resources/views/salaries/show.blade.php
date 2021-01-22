@@ -76,23 +76,7 @@
 							<div class="col-md-6">
 								<div class="card card-body border-top-teal">
 									<div class="form-group row">
-						                <label class="col-form-label col-lg-2">PPH:</label>
-						                <div class="col-lg-2">
-						                    <div class="input-group">
-						                        <input type="text" class="form-control border-teal border-1" placeholder="PPH" required disabled 
-						                        value="{{ $salary->pph_percentage }}%">
-						                    </div>
-						                </div>
-
-						                <label class="col-form-label col-lg-2">BPJS:</label>
-						                <div class="col-lg-2">
-						                    <div class="input-group">
-						                        <input type="text" class="form-control border-teal border-1" placeholder="BPJS" required disabled 
-						                        value="{{ $salary->bpjs_percentage }}%">
-						                    </div>
-						                </div>
-
-						                <div class="col-lg-4">
+						                <div class="col-lg-12">
 						                	@if ($salary->status == 0)
 						                		<span class="badge badge-danger float-right">Belum Di Serahkan</span>
 						                	@else
@@ -137,7 +121,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-4">PPH</label>
+										<label class="col-form-label col-lg-4">PPH ({{ $salary->pph_percentage }}%)</label>
 										<div class="col-lg-8">
 											<div class="input-group">
 												<input type="text" class="form-control border-teal" value="Rp. {{ number_format($salary->pph,2,",",".") }}" disabled>
@@ -146,7 +130,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-4">BPJS</label>
+										<label class="col-form-label col-lg-4">BPJS ({{ $salary->bpjs_percentage }}%)</label>
 										<div class="col-lg-8">
 											<div class="input-group">
 												<input type="text" class="form-control border-teal" value="Rp. {{ number_format($salary->bpjs,2,",",".") }}" disabled>
@@ -198,17 +182,17 @@
 								<div class="card card-body border-top-teal">
 									<div class="form-group row">
 						                <label class="col-form-label col-lg-2">PPH:</label>
-						                <div class="col-lg-2">
+						                <div class="col-lg-3">
 						                    <div class="input-group">
-						                        <input type="text" class="form-control border-teal border-1" placeholder="PPH" required disabled 
+						                        <input type="text" class="form-control border-teal border-1 text-center" placeholder="PPH" required disabled 
 						                        value="{{ $deduction->pph_percentage }}%">
 						                    </div>
 						                </div>
 
 						                <label class="col-form-label col-lg-2">BPJS:</label>
-						                <div class="col-lg-2">
+						                <div class="col-lg-3">
 						                    <div class="input-group">
-						                        <input type="text" class="form-control border-teal border-1" placeholder="BPJS" required disabled 
+						                        <input type="text" class="form-control border-teal border-1 text-center" placeholder="BPJS" required disabled 
 						                        value="{{ $deduction->bpjs_percentage }}%">
 						                    </div>
 						                </div>
@@ -237,7 +221,10 @@
 												<span class="input-group-prepend border-teal">
 													<span class="input-group-text">Rp.</span>
 												</span>
-												<input type="number" name="bonus" class="form-control border-teal border-1" placeholder="Bonus" required>
+												<input type="number" name="bonus" class="form-control border-teal border-1 @error('bonus') is-invalid @enderror" placeholder="Bonus" required value="{{ old('bonus') }}">
+												@error('bonus')
+								                  <div class="invalid-feedback">{{ $message }}</div>
+								                @enderror
 											</div>
 										</div>
 									</div>
@@ -249,7 +236,10 @@
 												<span class="input-group-prepend border-teal">
 													<span class="input-group-text">Rp.</span>
 												</span>
-												<input type="number" name="potongan_lain" class="form-control border-teal border-1" placeholder="Potongan Lain" required>
+												<input type="number" name="potongan_lain" class="form-control border-teal border-1 @error('potongan_lain') is-invalid @enderror" placeholder="Potongan Lain" required value="{{ old('potongan_lain') }}">
+												@error('potongan_lain')
+								                  <div class="invalid-feedback">{{ $message }}</div>
+								                @enderror
 											</div>
 										</div>
 									</div>
@@ -401,7 +391,7 @@
 								
 								<div class="col-md-12">
 									<h5 class="mr-1 d-inline">Jabatan:</h5>
-									<span>{{config('custom.role.'.$user->role)}}</span>
+									<span>{{config('custom.role_karyawan.'.$user->role)}}</span>
 								</div>
 							</div>
 
