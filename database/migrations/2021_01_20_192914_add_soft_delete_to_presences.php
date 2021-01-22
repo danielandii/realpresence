@@ -25,8 +25,5 @@ class AddSoftDeleteToPresences extends Migration
      */
     public function down()
     {
-        Schema::table('presences', function (Blueprint $table) {
-            //
-        });
     }
 }

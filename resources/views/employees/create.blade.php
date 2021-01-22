@@ -30,39 +30,57 @@
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Nama</label>
 							<div class="col-lg-10">
-								<input type="text" name="nama" class="form-control border-teal border-1" placeholder="Nama" required autofocus autocomplete="off">
+								<input type="text" name="nama" class="form-control border-teal border-1 @error('nama') is-invalid @enderror" placeholder="Nama" required autofocus autocomplete="off" value="{{ old('nama') }}">
+								@error('nama')
+				                  <div class="invalid-feedback">{{ $message }}</div>
+				                @enderror
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Username</label>
 							<div class="col-lg-10">
-								<input type="text" name="username" class="form-control border-teal border-1" placeholder="Username" required autocomplete="off">
+								<input type="text" name="username" class="form-control border-teal border-1 @error('username') is-invalid @enderror" placeholder="Username" required autocomplete="off" value="{{ old('username') }}">
+								@error('username')
+				                  <div class="invalid-feedback">{{ $message }}</div>
+				                @enderror
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Password</label>
 							<div class="col-lg-10">
-								<input type="password" name="password" class="form-control border-teal border-1" placeholder="Password" required autocomplete="off">
+								<input type="password" name="password" class="form-control border-teal border-1 @error('password') is-invalid @enderror" placeholder="Password" required autocomplete="off" value="{{ old('password') }}">
+								@error('password')
+				                  <div class="invalid-feedback">{{ $message }}</div>
+				                @enderror
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Email</label>
 							<div class="col-lg-10">
-								<input type="email" name="email" class="form-control border-teal border-1" placeholder="Email" required autocomplete="off">
+								<input type="email" name="email" class="form-control border-teal border-1 @error('email') is-invalid @enderror" placeholder="Email" required autocomplete="off" value="{{ old('email') }}">
+								@error('email')
+				                  <div class="invalid-feedback">{{ $message }}</div>
+				                @enderror
 							</div>
 						</div>
 						
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Telepon</label>
 							<div class="col-lg-10">
-								<input type="number" name="phone_number" class="form-control border-teal border-1" placeholder="telepon" required autocomplete="off">
+								<input type="number" name="phone_number" class="form-control border-teal border-1 @error('phone_number') is-invalid @enderror" placeholder="telepon" required autocomplete="off" value="{{ old('phone_number') }}">
+								@error('phone_number')
+				                  <div class="invalid-feedback">{{ $message }}</div>
+				                @enderror
 							</div>
 						</div>
 
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Alamat</label>
 							<div class="col-lg-10">
-								<input type="text" name="alamat" class="form-control border-teal border-1" placeholder="Alamat" required autocomplete="off">
+								<input type="text" name="alamat" class="form-control border-teal border-1 @error('alamat') is-invalid @enderror" placeholder="Alamat" required autocomplete="off" value="{{ old('alamat') }}">
+								@error('alamat')
+				                  <div class="invalid-feedback">{{ $message }}</div>
+				                @enderror
 							</div>
 						</div>
 
@@ -73,7 +91,10 @@
 									<span class="input-group-prepend border-teal">
 										<span class="input-group-text">Rp.</span>
 									</span>
-									<input type="number" name="gaji_pokok_employee" class="form-control border-teal border-1" placeholder="Gaji Pokok" required autocomplete="off">
+									<input type="number" name="gaji_pokok_employee" class="form-control border-teal border-1 @error('gaji_pokok_employee') is-invalid @enderror" placeholder="Gaji Pokok" required autocomplete="off" value="{{ old('gaji_pokok_employee') }}">
+									@error('gaji_pokok_employee')
+					                  <div class="invalid-feedback">{{ $message }}</div>
+					                @enderror
 								</div>
 							</div>
 						</div>
@@ -85,7 +106,10 @@
 									<span class="input-group-prepend border-teal">
 										<span class="input-group-text">Rp.</span>
 									</span>
-									<input type="number" name="uang_makan_employee" class="form-control border-teal border-1" placeholder="Uang Makan" required autocomplete="off">
+									<input type="number" name="uang_makan_employee" class="form-control border-teal border-1 @error('uang_makan_employee') is-invalid @enderror" placeholder="Uang Makan" required autocomplete="off" value="{{ old('uang_makan_employee') }}">
+									@error('uang_makan_employee')
+					                  <div class="invalid-feedback">{{ $message }}</div>
+					                @enderror
 								</div>
 							</div>
 						</div>

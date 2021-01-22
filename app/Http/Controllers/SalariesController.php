@@ -82,8 +82,8 @@ class SalariesController extends Controller
     {
         $months = $this->months;
         $deduction = Deduction::find(1);
-        $user = User::where('user_id', $id)->first();
-        $salary = Salary::where('user_id', $id)->where('month', $request->get('month'))->where('year', $request->get('year'))->first();
+        $user = User::find($id);
+        $salary = Salary::where('user_id', $user->user_id)->where('month', $request->get('month'))->where('year', $request->get('year'))->first();
         return view('salaries.show', ['user' => $user, 'salary' => $salary, 'months' => $months, 'deduction' => $deduction]);
     }
 

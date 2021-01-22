@@ -27,35 +27,35 @@
 					<div class="form-group row">
 						<label class="col-form-label col-lg-2">Nama</label>
 						<div class="col-lg-10">
-							<input type="text" name="nama" class="form-control border-teal border-1" placeholder="Nama" required autofocus autocomplete="off" value="{{\Auth::user()->nama}}" disabled>
+							<input type="text" class="form-control border-teal border-1" value="{{\Auth::user()->nama}}" disabled>
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<label class="col-form-label col-lg-2">Email</label>
 						<div class="col-lg-10">
-							<input type="email" name="email" class="form-control border-teal border-1" placeholder="Email" required value="{{\Auth::user()->email}}" autocomplete="off" disabled>
+							<input type="email" class="form-control border-teal border-1"  value="{{\Auth::user()->email}}"  disabled>
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<label class="col-form-label col-lg-2">Telepon</label>
 						<div class="col-lg-10">
-							<input type="number" name="phone_number" class="form-control border-teal border-1" placeholder="Telepon" value="{{\Auth::user()->employee->phone_number}}" required autocomplete="off" disabled>
+							<input type="number" class="form-control border-teal border-1" value="{{@\Auth::user()->employee->phone_number}}" disabled>
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<label class="col-form-label col-lg-2">Alamat</label>
 						<div class="col-lg-10">
-							<input type="text" name="alamat" class="form-control border-teal border-1" placeholder="Alamat" required autocomplete="off" value="{{\Auth::user()->employee->alamat}}" disabled>
+							<input type="text" class="form-control border-teal border-1" value="{{@\Auth::user()->employee->alamat}}" disabled>
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<label class="col-form-label col-lg-2">Bergabung Pada</label>
 						<div class="col-lg-10">
-							<input type="text" name="alamat" class="form-control border-teal border-1" placeholder="Alamat" required autocomplete="off" value="{{\Auth::user()->created_at->format('d F Y')}}" disabled>
+							<input type="text" class="form-control border-teal border-1"  value="{{@\Auth::user()->created_at->format('d F Y')}}" disabled>
 						</div>
 					</div>
 				</fieldset>

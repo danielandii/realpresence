@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserIdToUsers extends Migration
+class AddDropUniqueToEmployees extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddUserIdToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('user_id')->default(0);
+        Schema::table('employees', function (Blueprint $table) {
+            $table->dropUnique('employees_phone_number_unique');
         });
     }
 
@@ -25,8 +25,8 @@ class AddUserIdToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('user_id');
+        Schema::table('employees', function (Blueprint $table) {
+            //
         });
     }
 }

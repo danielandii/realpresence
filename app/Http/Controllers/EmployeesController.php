@@ -42,13 +42,13 @@ class EmployeesController extends Controller
     {
         $request->validate([
             'nama'=>'required',
-            'username'=>'required',
-            'password'=>'required',
-            'email'=>'required',
+            'username'=>'required|unique:users,username',
+            'password'=>'required|min:5',
+            'email'=>'required|unique:users,email|email:rfc,dns',
             'alamat'=>'required',
-            'phone_number'=>'required',
-            'gaji_pokok_employee'=>'required',
-            'uang_makan_employee'=>'required'
+            'phone_number'=>'required|unique:employees,phone_number|numeric|digits_between:10,14',
+            'gaji_pokok_employee'=>'required|numeric',
+            'uang_makan_employee'=>'required|numeric'
         ]);
 
         $data = $request->all();
@@ -98,14 +98,17 @@ class EmployeesController extends Controller
     // update still problem
     public function update(Request $request, $id)
     {
+        $user = User::where('user_id', $id)->first();
+
         $request->validate([
             'nama'=>'required',
-            'username'=>'required',
-            'email'=>'required',
+            'username'=>'required|unique:users,username,'.$user->id,
+            'password' => 'nullable|min:5',
+            'email'=>'required|email:rfc,dns|unique:users,email,'.$user->id,
             'alamat'=>'required',
-            'phone_number'=>'required',
-            'gaji_pokok_employee'=>'required',
-            'uang_makan_employee'=>'required'
+            'phone_number'=>'required|numeric|digits_between:10,14|unique:employees,phone_number,'.$id,
+            'gaji_pokok_employee'=>'required|numeric',
+            'uang_makan_employee'=>'required|numeric'
         ]);
 
         $data = $request->all();
@@ -120,7 +123,7 @@ class EmployeesController extends Controller
             $data['password'] = bcrypt($request->get('password'));
         }
 
-        $user = User::where('user_id', $id)->update($data);
+        $user->update($data);
 
         return redirect('/data-employees/employees')->with('success', 'Employee updated!');
     }
@@ -180,12 +183,13 @@ class EmployeesController extends Controller
     {
         $request->validate([
             'nama'=>'required',
-            'username'=>'required',
-            'email'=>'required',
+            'username'=>'required|unique:users,username,'.$id,
+            'password' => 'nullable|min:5',
+            'email'=>'required|email:rfc,dns|unique:users,email,'.$id,
             'alamat'=>'required',
-            'phone_number'=>'required',
-            'gaji_pokok_employee'=>'required',
-            'uang_makan_employee'=>'required'
+            'phone_number'=>'required|numeric|digits_between:10,14|unique:employees,phone_number',
+            'gaji_pokok_employee'=>'required|numeric',
+            'uang_makan_employee'=>'required|numeric'
         ]);
 
         $data = $request->all();
@@ -204,6 +208,18 @@ class EmployeesController extends Controller
         $user = User::find($id)->update($data);
 
         return redirect('/data-employees/employees')->with('success', 'Employee updated!');
+    }
+
+    public function destroyEmployee($id)
+    {
+        $user = User::find($id);
+        $salary = Salary::where('user_id', $user->user_id);
+        $presence = Presence::where('user_id', $id);
+        $salary->delete();
+        $user->delete();
+        $presence->delete();
+
+        return redirect('/data-employees/employees')->with('success', 'Employees deleted!');
     }
 
 }
