@@ -40,13 +40,20 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
+        // $validator = Validator::make($request->all(), [
+        //     // 'nama'=>'required',
+        //     // 'email'=>'required|unique:users,email,NULL,id,deleted_at,NULL',
+        //     'username'=>'required|unique:users,username,NULL,id,deleted_at,NULL',
+        //     // 'password'=>'required',
+        // ]);
+
         $request->validate([
             'nama'=>'required',
-            'username'=>'required|unique:users,username',
+            'username'=>'required|unique:users,username,NULL,id,deleted_at,NULL',
             'password'=>'required|min:5',
-            'email'=>'required|unique:users,email|email:rfc,dns',
+            'email'=>'required|unique:users,email,NULL,id,deleted_at,NULL',
             'alamat'=>'required',
-            'phone_number'=>'required|unique:employees,phone_number|numeric|digits_between:10,14',
+            'phone_number'=>'required|unique:employees,phone_number,NULL,id,deleted_at,NULL|numeric|digits_between:10,14',
             'gaji_pokok_employee'=>'required|numeric',
             'uang_makan_employee'=>'required|numeric'
         ]);
@@ -102,11 +109,11 @@ class EmployeesController extends Controller
 
         $request->validate([
             'nama'=>'required',
-            'username'=>'required|unique:users,username,'.$user->id,
+            'username'=>'required|unique:users,username,'.$user->id.',id,deleted_at,NULL',
             'password' => 'nullable|min:5',
-            'email'=>'required|email:rfc,dns|unique:users,email,'.$user->id,
+            'email'=>'required|email:rfc,dns|unique:users,email,'.$user->id.',id,deleted_at,NULL',
             'alamat'=>'required',
-            'phone_number'=>'required|numeric|digits_between:10,14|unique:employees,phone_number,'.$id,
+            'phone_number'=>'required|numeric|digits_between:10,14|unique:employees,phone_number,'.$id.',id,deleted_at,NULL',
             'gaji_pokok_employee'=>'required|numeric',
             'uang_makan_employee'=>'required|numeric'
         ]);
@@ -183,11 +190,11 @@ class EmployeesController extends Controller
     {
         $request->validate([
             'nama'=>'required',
-            'username'=>'required|unique:users,username,'.$id,
+            'username'=>'required|unique:users,username,'.$id.',id,deleted_at,NULL',
             'password' => 'nullable|min:5',
-            'email'=>'required|email:rfc,dns|unique:users,email,'.$id,
+            'email'=>'required|email:rfc,dns|unique:users,email,'.$id.',id,deleted_at,NULL',
             'alamat'=>'required',
-            'phone_number'=>'required|numeric|digits_between:10,14|unique:employees,phone_number',
+            'phone_number'=>'required|unique:employees,phone_number,NULL,id,deleted_at,NULL|numeric|digits_between:10,14',
             'gaji_pokok_employee'=>'required|numeric',
             'uang_makan_employee'=>'required|numeric'
         ]);

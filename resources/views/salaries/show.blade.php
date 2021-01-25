@@ -222,9 +222,6 @@
 													<span class="input-group-text">Rp.</span>
 												</span>
 												<input type="number" name="bonus" class="form-control border-teal border-1 @error('bonus') is-invalid @enderror" placeholder="Bonus" required value="{{ old('bonus') }}">
-												@error('bonus')
-								                  <div class="invalid-feedback">{{ $message }}</div>
-								                @enderror
 											</div>
 										</div>
 									</div>
@@ -237,9 +234,6 @@
 													<span class="input-group-text">Rp.</span>
 												</span>
 												<input type="number" name="potongan_lain" class="form-control border-teal border-1 @error('potongan_lain') is-invalid @enderror" placeholder="Potongan Lain" required value="{{ old('potongan_lain') }}">
-												@error('potongan_lain')
-								                  <div class="invalid-feedback">{{ $message }}</div>
-								                @enderror
 											</div>
 										</div>
 									</div>
@@ -322,7 +316,7 @@
 	                                <span class="input-group-append">
 	                                    <span class="input-group-text">Rp.</span>
 	                                </span>
-	                                <input type="number" name="bonus" class="form-control border-teal border-1" placeholder="Bonus" required value="{{ $salary->bonus }}">
+	                                <input type="number" name="bonus" class="form-control border-teal border-1 " placeholder="Bonus" required value="{{ $salary->bonus }}">
 	                            </div>
 	                        </div>
 	                    </div>
@@ -333,7 +327,7 @@
 	                                <span class="input-group-append">
 	                                    <span class="input-group-text">Rp.</span>
 	                                </span>
-	                                <input type="number" name="potongan_lain" class="form-control border-teal border-1" placeholder="Potongan Lain" required value="{{ $salary->potongan_lain }}">
+	                                <input type="number" name="potongan_lain" class="form-control border-teal border-1 " placeholder="Potongan Lain" required value="{{ $salary->potongan_lain }}">
 	                            </div>
 	                        </div>
 	                    </div>
@@ -656,6 +650,16 @@
 	                type: 'success'
 	            });
             @endif
+            @if ($errors->any())
+				@foreach ($errors->all() as $error)
+					new PNotify({
+						title: 'Error',
+						text: '{{ $error }}.',
+						icon: 'icon-blocked',
+						type: 'error'
+					});
+				@endforeach
+			@endif
             @if ( session('printpdf'))
 	        var id = {{session('printpdf')}};
 	        // alert(id);

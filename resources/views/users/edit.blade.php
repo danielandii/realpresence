@@ -30,26 +30,26 @@
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Nama</label>
 							<div class="col-lg-10">
-								<input type="text" name="nama" class="form-control border-teal border-1" placeholder="Nama" required value="{{ $user->nama }}">
+								<input type="text" name="nama" class="form-control border-teal border-1 @error('nama') is-invalid @enderror" placeholder="Nama" required autofocus autocomplete="off" value="{{ ( old('nama') ) ? old('nama') : $user->nama }}">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Email</label>
 							<div class="col-lg-10">
-								<input type="email" name="email" class="form-control border-teal border-1" placeholder="Email" required value="{{ $user->email }}">
+								<input type="email" name="email" class="form-control border-teal border-1 @error('email') is-invalid @enderror" placeholder="Email" required value="{{ ( old('email') ) ? old('email') : $user->email }}" autocomplete="off">
 							</div>
 						</div>
 						
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Username</label>
 							<div class="col-lg-10">
-								<input type="text" name="username" class="form-control border-teal border-1" placeholder="Username" required value="{{ $user->username }}">
+								<input type="text" name="username" class="form-control border-teal border-1 @error('username') is-invalid @enderror" placeholder="Username" required autocomplete="off" value="{{ ( old('username') ) ? old('username') : $user->username }}">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Password</label>
 							<div class="col-lg-10">
-								<input type="password" name="password" class="form-control border-teal border-1" placeholder="Password">
+								<input type="password" name="password" class="form-control border-teal border-1 @error('password') is-invalid @enderror" placeholder="Password" autocomplete="off" value="{{ old('password') }}">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -222,6 +222,16 @@
 	                type: 'success'
 	            });
             @endif
+            @if ($errors->any())
+				@foreach ($errors->all() as $error)
+					new PNotify({
+						title: 'Error',
+						text: '{{ $error }}.',
+						icon: 'icon-blocked',
+						type: 'error'
+					});
+				@endforeach
+			@endif
 
 		});
 	</script>

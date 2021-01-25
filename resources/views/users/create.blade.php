@@ -29,26 +29,26 @@
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Nama</label>
 							<div class="col-lg-10">
-								<input type="text" name="nama" class="form-control border-teal border-1" placeholder="Nama" required>
+								<input type="text" name="nama" class="form-control border-teal border-1 @error('nama') is-invalid @enderror" placeholder="Nama" required autofocus autocomplete="off" value="{{ old('nama') }}">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Email</label>
 							<div class="col-lg-10">
-								<input type="email" name="email" class="form-control border-teal border-1" placeholder="Email" required>
+								<input type="email" name="email" class="form-control border-teal border-1 @error('email') is-invalid @enderror" placeholder="Email" required autocomplete="off" value="{{ old('email') }}">
 							</div>
 						</div>
 						
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Username</label>
 							<div class="col-lg-10">
-								<input type="text" name="username" class="form-control border-teal border-1" placeholder="Username" required>
+								<input type="text" name="username" class="form-control border-teal border-1 @error('username') is-invalid @enderror" placeholder="Username" required autocomplete="off" value="{{ old('username') }}">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2">Password</label>
 							<div class="col-lg-10">
-								<input type="password" name="password" class="form-control border-teal border-1" placeholder="Password" required>
+								<input type="password" name="password" class="form-control border-teal border-1 @error('password') is-invalid @enderror" placeholder="Password" required autocomplete="off" value="{{ old('password') }}">
 							</div>
 						</div>
 						<div class="form-group row">

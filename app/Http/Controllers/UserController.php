@@ -40,9 +40,9 @@ class UserController extends Controller
     {
         $request->validate([
             'nama'=>'required',
-            'email'=>'required',
-            'username'=>'required',
-            'password'=>'required',
+            'username'=>'required|unique:users,username,NULL,id,deleted_at,NULL',
+            'password'=>'required|min:5',
+            'email'=>'required|unique:users,email,NULL,id,deleted_at,NULL',
         ]);
 
         $data = $request->except(['_token', '_method']);
@@ -87,7 +87,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            //
+            'nama'=>'required',
+            'username'=>'required|unique:users,username,'.$id.',id,deleted_at,NULL',
+            'password' => 'nullable|min:5',
+            'email'=>'required|email:rfc,dns|unique:users,email,'.$id.',id,deleted_at,NULL',
         ]);
 
         $user = User::find($id);
