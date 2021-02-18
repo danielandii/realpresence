@@ -391,17 +391,19 @@ class AuthController extends Controller
                     return response()->json([
                         'code' => 409,
                         'message' => 'Error',
-                        'data' => 'Presence data already recorded'
-                    ],400);
+                        'data' => 'UnPresence data already recorded'
+                    ],409);
+
                 }else{
-                    $presence = Presence::where('user_id',$user->id)->first();
+                    $presence = Presence::where('user_id',$user->id)->where('tanggal',$findtoken->tanggal)->first();
+                    // dd($presence);
                     $presence->jam_pulang = date('H:i:s');
                     $presence->update();
         
                     return response()->json([
                         'code' => 200,
                         'message' => 'Success',
-                        'data' => 'Presence Data has been recorded'
+                        'data' => 'UnPresence Data has been recorded'
                     ],200);
                 }
             // jika data user tidak ditemukan
