@@ -266,6 +266,8 @@ class AuthController extends Controller
     public function show($id, Request $request)
     {
         $user = User::find($id);
+        $user['last_presence'] = $user->presence->sortByDesc('id')->first()->tanggal;
+        // dd($user);
         if ($user) {
             return response()->json([
                 'code' => 200,
@@ -314,6 +316,27 @@ class AuthController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Get History Success',
+                'data' => $historyuser
+            ],200);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Error getting History',
+                'data' => 'Data not found'
+            ],400);
+        }
+    }
+
+    public function yearhistorypresence(Request $request)
+    {
+        $user = $request->user();
+        $year = $request->get('year');
+        $historyuser = Presence::where('user_id',$user->id)->whereYear('tanggal',$year)->get();
+
+        if (count($historyuser) > 0) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Get Year History Success',
                 'data' => $historyuser
             ],200);
         } else {
