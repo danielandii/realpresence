@@ -266,13 +266,25 @@ class AuthController extends Controller
     public function show($id, Request $request)
     {
         $user = User::find($id);
-        $user['last_presence'] = $user->presence->sortByDesc('id')->first()->tanggal;
+
+        $data['id'] = $user->id;
+        $data['username'] = $user->username;
+        $data['nama'] = $user->nama;
+        $data['email'] = $user->email;
+        $data['role'] = $user->role;
+        $data['created_at'] = date("Y-m-d H:i:s", strtotime($user->created_at));;
+        $data['updated_at'] = date("Y-m-d H:i:s", strtotime($user->updated_at));
+        $data['last_presence'] = [
+            'last_presence' => @$user->presence->sortByDesc('id')->first()->tanggal,
+            'jam_masuk' => @$user->presence->sortByDesc('id')->first()->jam_masuk,
+            'jam_pulang' => @$user->presence->sortByDesc('id')->first()->jam_pulang
+        ];
         // dd($user);
         if ($user) {
             return response()->json([
                 'code' => 200,
                 'message' => 'Get User Success',
-                'data' => $user
+                'data' => $data
             ],200);
         } else {
             return response()->json([
@@ -310,7 +322,7 @@ class AuthController extends Controller
         ->groupBy(function($date) {
             //return Carbon::parse($date->created_at)->format('Y'); // grouping by years
             return Carbon::parse($date->tanggal)->format('F'); // grouping by months
-        });;
+        });
         // dd($month);
         if (count($historyuser) > 0) {
             return response()->json([
@@ -331,7 +343,11 @@ class AuthController extends Controller
     {
         $user = $request->user();
         $year = $request->get('year');
-        $historyuser = Presence::where('user_id',$user->id)->whereYear('tanggal',$year)->get();
+        $historyuser = Presence::where('user_id',$user->id)->whereYear('tanggal',$year)->get()
+        ->groupBy(function($date) {
+            //return Carbon::parse($date->created_at)->format('Y'); // grouping by years
+            return Carbon::parse($date->tanggal)->format('F'); // grouping by months
+        });
 
         if (count($historyuser) > 0) {
             return response()->json([
